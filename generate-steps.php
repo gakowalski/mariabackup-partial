@@ -18,7 +18,13 @@ require_once 'config.php';
 
 */
 
+$dbs_space_separated = strtr(implode(' ', $dbs), [ // to use in shell commands
+    '-' => '@002d',
+]);  
 echo "$mariabackup_cmd --backup --target-dir=$backup_dir --user=$user --password=$pass --databases=\"$dbs_space_separated\"" . PHP_EOL;
 echo "$mariabackup_cmd --prepare --export --target-dir=$backup_dir" . PHP_EOL;
-echo "$mysqldump_cmd -u $user -p --no-data --databases $dbs_space_separated > {$backup_dir}recreate_databases_and_tables.sql" . PHP_EOL;
+
+$dbs_space_separated = implode(' ', $dbs); 
+echo "$mysqldump_cmd -u $user -p --no-data --databases $dbs_space_separated > {$backup_dir}1_recreate_databases_and_tables.sql" . PHP_EOL;
+
 echo "php tablespaces.php" . PHP_EOL;

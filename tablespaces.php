@@ -4,9 +4,10 @@ require 'connect.php';
 
 // retrieve full table names from
 // SELECT CONCAT(table_schema, '.', TABLE_NAME) FROM information_schema.tables WHERE table_schema IN (...)
-// take database names from $dbs_sql_quoted
 
-$query = "SELECT CONCAT('`'. table_schema, '`.`', TABLE_NAME, '`') FROM information_schema.tables WHERE table_schema IN ($dbs_sql_quoted) and engine = 'InnoDB'";
+$dbs_sql_quoted = '"' . implode('", "', $dbs) . '"';    // to use in SQL queries
+
+$query = "SELECT CONCAT('`', table_schema, '`.`', TABLE_NAME, '`') FROM information_schema.tables WHERE table_schema IN ($dbs_sql_quoted) and engine = 'InnoDB'";
 $result = $mysqli->query($query);
 if (!$result) {
     die("Query failed: (" . $mysqli->errno . ") " . $mysqli->error);
@@ -33,9 +34,9 @@ foreach ($tables as $table) {
 
 // save SQL for tablespace discarding and tablespace importing to files
 file_put_contents($backup_dir . 'discard_tablespaces.sql', $sql_discard_tablespaces);
-echo "Saved SQL for tablespace discarding to {$backup_dir}discard_tablespaces.sql" . PHP_EOL;
+echo "Saved SQL for tablespace discarding to 2_{$backup_dir}discard_tablespaces.sql" . PHP_EOL;
 
 file_put_contents($backup_dir . 'import_tablespaces.sql', $sql_import_tablespaces);
-echo "Saved SQL for tablespace importing to {$backup_dir}import_tablespaces.sql" . PHP_EOL;
+echo "Saved SQL for tablespace importing to 3_{$backup_dir}import_tablespaces.sql" . PHP_EOL;
 
 require 'disconnect.php';
