@@ -22,6 +22,9 @@ $result->free();
 $sql_discard_tablespaces = '';
 $sql_import_tablespaces = '';
 
+// disable foregin key checks for discarding tablespaces
+$sql_discard_tablespaces .= "SET SESSION FOREIGN_KEY_CHECKS = 0;" . PHP_EOL;
+
 // generate SQL for tablespace discarding and tablespace importing
 foreach ($tables as $table) {
     $sql_discard_tablespaces .= "ALTER TABLE $table DISCARD TABLESPACE;" . PHP_EOL;
