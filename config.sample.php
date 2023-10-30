@@ -15,5 +15,7 @@ $mysqldump_cmd = 'mysqldump.exe';
 // THOSE WILL BE CALCULATED AUTOMATICALLY
 
 $dbs = explode($dbs_separator, $dbs_raw);
-$dbs_space_separated = implode(' ', $dbs);
-$dbs_sql_quoted = '"' . implode('", "', $dbs) . '"';
+$dbs_space_separated = strtr(implode(' ', $dbs), [ // to use in shell commands
+    '-' => '@002d',
+]);  
+$dbs_sql_quoted = '"' . implode('", "', $dbs) . '"';    // to use in SQL queries
