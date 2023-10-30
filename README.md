@@ -12,7 +12,8 @@ Prerequisites:
 
 Steps to make partial backup & restore:
 
-1. On the SOURCE server make next steps
+1. Copy `config.sample.php` to `config.php` and edit with proper data;
+1. On the SOURCE server make next steps:
 2. Make partial backup using mariabackup, eg. `mariadb-backup.exe --backup --target-dir=c:\TEMP\mariadb\ --user=root --password=... --databases="... ..."`
 3. Prepare data export, eg. `mariadb-backup.exe --prepare --export --target-dir=c:\TEMP\mariadb\`
 4. Generate SQL for database and table recreating: `mysqldump.exe -u root -p --no-data --databases ... ... > c:\TEMP\mariadb\recreate_databases_and_tables.sql`
